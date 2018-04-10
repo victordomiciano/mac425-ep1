@@ -116,6 +116,7 @@ def depthFirstSearch(problem):
     successors = problem.getSuccessors(problem.getStartState())
     pos = problem.getStartState()
     coord[pos] = []
+    valid = 1
 
     for i in range(len(successors)):
         pushStack(successors[i])
@@ -139,8 +140,54 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    def getPredecessor(actualState):
+        if actualState[1] == 'North':
+            return (actualState[0][0], actualState[0][1] - 1)
+        if actualState[1] == 'South':
+            return (actualState[0][0], actualState[0][1] + 1)
+        if actualState[1] == 'East':
+            return (actualState[0][0] - 1, actualState[0][1])
+        if actualState[1] == 'West':
+            return (actualState[0][0] + 1, actualState[0][1])
+
+    def pushQueue(state):
+        util.Queue.push(queue, state[0])
+        dirlist = list(coord.get(getPredecessor(state)))
+        dirlist.append(state[1])
+        coord[state[0]] = dirlist
+
+    visited = [problem.getStartState()]
+    if problem.isGoalState(visited[0]):
+        return []
+    queue = util.Queue()
+    coord = {}
+    goal = (-1, -1)
+
+    successors = problem.getSuccessors(problem.getStartState())
+    pos = problem.getStartState()
+    coord[pos] = []
+    valid = 1
+
+    for i in range(len(successors)):
+        pushQueue(successors[i])
+    while (not(util.Queue.isEmpty(queue)) and goal == (-1, -1)):
+        successors = problem.getSuccessors(util.Queue.pop(queue))
+        for i in range(len(successors)):
+            for j in range(len(visited)):
+                if visited[j] == successors[i][0]:
+                    valid = 0
+                    break
+            if valid == 0:
+                valid = 1
+                continue
+            visited.append(successors[i][0])
+            pushQueue(successors[i])
+            if problem.isGoalState(successors[i][0]):
+                goal = successors[i][0]
+                break
+
+    return coord.get(goal)
 
 def iterativeDeepeningSearch(problem):
     """
