@@ -90,53 +90,58 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
 
-    def getPredecessor(actualState):
-        if actualState[1] == 'North':
-            return (actualState[0][0], actualState[0][1] - 1)
-        if actualState[1] == 'South':
-            return (actualState[0][0], actualState[0][1] + 1)
-        if actualState[1] == 'East':
-            return (actualState[0][0] - 1, actualState[0][1])
-        if actualState[1] == 'West':
-            return (actualState[0][0] + 1, actualState[0][1])
+    def getUnvisitedState():
+        state = util.Stack.pop(stack)
+        print(state)
+        for vstate in visited:
+            if vstate == state:
+                getUnvisitedState()
+        return state
 
-    def pushStack(state):
-        util.Stack.push(stack, state[0])
-        dirlist = list(coord.get(getPredecessor(state)))
-        dirlist.append(state[1])
-        coord[state[0]] = dirlist
-
-    visited = [problem.getStartState()]
-    if problem.isGoalState(visited[0]):
+    if problem.isGoalState(problem.getStartState()):
         return []
     stack = util.Stack()
-    coord = {}
-    goal = (-1, -1)
+    visited = [problem.getStartState()]
+    goal = []
+    path = []
 
-    successors = problem.getSuccessors(problem.getStartState())
-    pos = problem.getStartState()
-    coord[pos] = []
-    valid = 1
+    state = problem.getStartState()
+    while (goal == []):
+        successors = problem.getSuccessors(state)
+        for state in successors:
+            util.Stack.push(stack, state[0])
+        print(successors)
+        state = getUnvisitedState()
+        if problem.isGoalState(state[0]):
+            goal = state
+            break
+        visited.append(state)
+        print(visited)
 
-    for i in range(len(successors)):
-        pushStack(successors[i])
-    while (not(util.Stack.isEmpty(stack)) and goal == (-1, -1)):
+    stack = util.Stack()
+    successors = problem.getSuccessors(goal[0])
+
+    for state in successors:
+        util.Stack.push(stack, state[0])
+
+    while (goal != []):
         successors = problem.getSuccessors(util.Stack.pop(stack))
-        for i in range(len(successors)):
-            for j in range(len(visited)):
-                if visited[j] == successors[i][0]:
-                    valid = 0
+        for state in successors:
+            for vstate in visited:
+                if vstate == state[0]:
+                    path.append(state[1])
+                    util.Stack.push(stack, state[0])
                     break
+            if state[0] == problem.getStartState:
+                goal = []
+                break
             if valid == 0:
                 valid = 1
                 continue
-            visited.append(successors[i][0])
-            pushStack(successors[i])
-            if problem.isGoalState(successors[i][0]):
-                goal = successors[i][0]
-                break
 
-    return coord.get(goal)
+    print(path)
+
+    return path
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
