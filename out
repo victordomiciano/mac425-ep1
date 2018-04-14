@@ -1,4 +1,4 @@
-Starting on 4-13 at 22:24:15
+Starting on 4-13 at 23:06:32
 
 Question q1
 ===========
@@ -35,36 +35,15 @@ Question q2
 *** PASS: test_cases/q2/graph_infinite.test
 *** 	solution:		['0:A->B', '1:B->C', '1:C->G']
 *** 	expanded_states:	['A', 'B', 'C']
-*** FAIL: test_cases/q2/graph_manypaths.test
-*** 	graph:
-*** 	        B1          E1
-*** 	       ^  \        ^  \
-*** 	      /    V      /    V
-*** 	    *A --> C --> D --> F --> [G]
-*** 	      \    ^      \    ^
-*** 	       V  /        V  /
-*** 	        B2          E2
-*** 	    
-*** 	    A is the start state, G is the goal.  Arrows mark 
-*** 	    possible state transitions.  This graph has multiple
-*** 	    paths to the goal, where nodes with the same state 
-*** 	    are added to the fringe multiple times before they
-*** 	    are expanded.
-*** 	student solution:		['0:A->B1', '0:B1->C', '0:C->D', '0:D->E1', '0:E1->F', '0:F->G']
-*** 	student expanded_states:	['A', 'B1', 'C', 'B2', 'C', 'D', 'D', 'E1', 'F', 'E2', 'E1', 'F', 'E2', 'F']
-*** 
-*** 	correct solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
-*** 	correct expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
-*** 	correct rev_solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
-*** 	correct rev_expanded_states:	['A', 'B2', 'C', 'B1', 'D', 'E2', 'F', 'E1']
-*** FAIL: test_cases/q2/pacman_1.test
-*** Too many node expanded; are you expanding nodes twice?
-*** 	student nodes expanded: 275
-*** 
-*** 	correct nodes expanded: 269 (leewayFactor 1.0)
-*** Tests failed.
+*** PASS: test_cases/q2/graph_manypaths.test
+*** 	solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+*** PASS: test_cases/q2/pacman_1.test
+*** 	pacman layout:		mediumMaze
+*** 	solution length: 68
+*** 	nodes expanded:		269
 
-### Question q2: 0/3 ###
+### Question q2: 3/3 ###
 
 
 Question q3
@@ -214,15 +193,15 @@ West West
 ### Question q3: 0/3 ###
 
 
-Finished at 22:24:15
+Finished at 23:06:32
 
 Provisional grades
 ==================
 Question q1: 3/3
-Question q2: 0/3
+Question q2: 3/3
 Question q3: 0/3
 ------------------
-Total: 3/9
+Total: 6/9
 
 Your grades are NOT yet registered.  To register your grades, make sure
 to follow your instructor's guidelines to receive credit on your project.

@@ -167,6 +167,7 @@ def breadthFirstSearch(problem):
         for st in successors:
             if st[0] not in visited:
                 pushQueue(st)
+                visited.append(st[0])
 
     return coord.get(goal)
 
