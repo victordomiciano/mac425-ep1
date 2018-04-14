@@ -1,0 +1,229 @@
+Starting on 4-13 at 22:24:15
+
+Question q1
+===========
+
+*** PASS: test_cases/q1/graph_backtrack.test
+*** 	solution:		['1:A->C', '0:C->G']
+*** 	expanded_states:	['A', 'D', 'C']
+*** PASS: test_cases/q1/graph_bfs_vs_dfs.test
+*** 	solution:		['2:A->D', '0:D->G']
+*** 	expanded_states:	['A', 'D']
+*** PASS: test_cases/q1/graph_infinite.test
+*** 	solution:		['0:A->B', '1:B->C', '1:C->G']
+*** 	expanded_states:	['A', 'B', 'C']
+*** PASS: test_cases/q1/graph_manypaths.test
+*** 	solution:		['2:A->B2', '0:B2->C', '0:C->D', '2:D->E2', '0:E2->F', '0:F->G']
+*** 	expanded_states:	['A', 'B2', 'C', 'D', 'E2', 'F']
+*** PASS: test_cases/q1/pacman_1.test
+*** 	pacman layout:		mediumMaze
+*** 	solution length: 130
+*** 	nodes expanded:		146
+
+### Question q1: 3/3 ###
+
+
+Question q2
+===========
+
+*** PASS: test_cases/q2/graph_backtrack.test
+*** 	solution:		['1:A->C', '0:C->G']
+*** 	expanded_states:	['A', 'B', 'C', 'D']
+*** PASS: test_cases/q2/graph_bfs_vs_dfs.test
+*** 	solution:		['1:A->G']
+*** 	expanded_states:	['A', 'B']
+*** PASS: test_cases/q2/graph_infinite.test
+*** 	solution:		['0:A->B', '1:B->C', '1:C->G']
+*** 	expanded_states:	['A', 'B', 'C']
+*** FAIL: test_cases/q2/graph_manypaths.test
+*** 	graph:
+*** 	        B1          E1
+*** 	       ^  \        ^  \
+*** 	      /    V      /    V
+*** 	    *A --> C --> D --> F --> [G]
+*** 	      \    ^      \    ^
+*** 	       V  /        V  /
+*** 	        B2          E2
+*** 	    
+*** 	    A is the start state, G is the goal.  Arrows mark 
+*** 	    possible state transitions.  This graph has multiple
+*** 	    paths to the goal, where nodes with the same state 
+*** 	    are added to the fringe multiple times before they
+*** 	    are expanded.
+*** 	student solution:		['0:A->B1', '0:B1->C', '0:C->D', '0:D->E1', '0:E1->F', '0:F->G']
+*** 	student expanded_states:	['A', 'B1', 'C', 'B2', 'C', 'D', 'D', 'E1', 'F', 'E2', 'E1', 'F', 'E2', 'F']
+*** 
+*** 	correct solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	correct expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+*** 	correct rev_solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	correct rev_expanded_states:	['A', 'B2', 'C', 'B1', 'D', 'E2', 'F', 'E1']
+*** FAIL: test_cases/q2/pacman_1.test
+*** Too many node expanded; are you expanding nodes twice?
+*** 	student nodes expanded: 275
+*** 
+*** 	correct nodes expanded: 269 (leewayFactor 1.0)
+*** Tests failed.
+
+### Question q2: 0/3 ###
+
+
+Question q3
+===========
+
+*** FAIL: test_cases/q3/astar_0.test
+*** 	graph:
+*** 	              C
+*** 	              ^
+*** 	              | 2
+*** 	         2    V   4 
+*** 	    *A <----> B -----> [H]
+*** 	              | 
+*** 	         1.5  V  2.5
+*** 	     G <----- D -----> E
+*** 	              |
+*** 	            2 | 
+*** 	              V
+*** 	             [F]
+*** 	    
+*** 	    A is the start state, F and H is the goal.  Arrows mark possible state 
+*** 	    transitions.  The number next to the arrow is the cost of that transition.
+*** 	student solution:		[]
+*** 	student expanded_states:	[]
+*** 
+*** 	correct solution:		['Right', 'Down', 'Down']
+*** 	correct expanded_states:	['A', 'B', 'D', 'C', 'G']
+*** 	correct rev_solution:		['Right', 'Down', 'Down']
+*** 	correct rev_expanded_states:	['A', 'B', 'D', 'C', 'G']
+*** FAIL: test_cases/q3/astar_1_graph_heuristic.test
+*** 	graph:
+*** 	         2     3     2
+*** 	      S --- A --- C ---> G
+*** 	      | \       /       ^
+*** 	    3 |  \ 5   / 1     / 
+*** 	      |   \   /       / 
+*** 	      B --- D -------/
+*** 	         4         5  
+*** 	    
+*** 	    S is the start state, G is the goal.  Arrows mark possible state 
+*** 	    transitions.  The number next to the arrow is the cost of that transition.
+*** 	    
+*** 	    The heuristic value of each state is:
+*** 	    	S 6.0
+*** 	    	A 2.5
+*** 	    	B 5.25
+*** 	    	C 1.125
+*** 	    	D 1.0625
+*** 	    	G 0
+*** 	student solution:		[]
+*** 	student expanded_states:	[]
+*** 
+*** 	correct solution:		['0', '0', '2']
+*** 	correct expanded_states:	['S', 'A', 'D', 'C']
+*** 	correct rev_solution:		['0', '0', '2']
+*** 	correct rev_expanded_states:	['S', 'A', 'D', 'C']
+*** FAIL: test_cases/q3/astar_2_manhattan.test
+*** Solution not correct.
+*** 	student solution length: 0
+*** 	student solution:
+
+*** 
+*** 	correct solution length: 68
+*** 	correct (reversed) solution length: 68
+*** 	correct solution:
+West West West West West West West West West South South East East
+South South South West West West North West West West West South South
+South East East East East East East East South South South South South
+South South West West West West West West West West West West West
+West West West West West West South West West West West West West West
+West West
+*** 	correct (reversed) solution:
+West West West West West West West West West South South East East
+South South South West West West North West West West West South South
+South East East East East East East East South South South South South
+South South West West West West West West West West West West West
+West West West West West West South West West West West West West West
+West West
+*** FAIL: test_cases/q3/astar_3_goalAtDequeue.test
+*** 	graph:
+*** 	        1      1      1
+*** 	    *A ---> B ---> C ---> [G]
+*** 	     |                     ^
+*** 	     |         10          |
+*** 	     \---------------------/
+*** 	    
+*** 	    A is the start state, G is the goal.  Arrows mark possible state 
+*** 	    transitions.  The number next to the arrow is the cost of that transition.
+*** 	    
+*** 	    If you fail this test case, you may be incorrectly testing if a node is a goal 
+*** 	    before adding it into the queue, instead of testing when you remove the node 
+*** 	    from the queue.  See the algorithm pseudocode in lecture.
+*** 	student solution:		[]
+*** 	student expanded_states:	[]
+*** 
+*** 	correct solution:		['1:A->B', '0:B->C', '0:C->G']
+*** 	correct expanded_states:	['A', 'B', 'C']
+*** 	correct rev_solution:		['1:A->B', '0:B->C', '0:C->G']
+*** 	correct rev_expanded_states:	['A', 'B', 'C']
+*** FAIL: test_cases/q3/graph_backtrack.test
+*** 	graph:
+*** 	     B   
+*** 	     ^
+*** 	     |
+*** 	    *A --> C --> G
+*** 	     |
+*** 	     V
+*** 	     D
+*** 	    
+*** 	    A is the start state, G is the goal.  Arrows mark 
+*** 	    possible state transitions.  This tests whether
+*** 	    you extract the sequence of actions correctly even
+*** 	    if your search backtracks.  If you fail this, your
+*** 	    nodes are not correctly tracking the sequences of
+*** 	    actions required to reach them.
+*** 	student solution:		[]
+*** 	student expanded_states:	[]
+*** 
+*** 	correct solution:		['1:A->C', '0:C->G']
+*** 	correct expanded_states:	['A', 'B', 'C', 'D']
+*** 	correct rev_solution:		['1:A->C', '0:C->G']
+*** 	correct rev_expanded_states:	['A', 'B', 'C', 'D']
+*** FAIL: test_cases/q3/graph_manypaths.test
+*** 	graph:
+*** 	        B1          E1
+*** 	       ^  \        ^  \
+*** 	      /    V      /    V
+*** 	    *A --> C --> D --> F --> [G]
+*** 	      \    ^      \    ^
+*** 	       V  /        V  /
+*** 	        B2          E2
+*** 	    
+*** 	    A is the start state, G is the goal.  Arrows mark 
+*** 	    possible state transitions.  This graph has multiple
+*** 	    paths to the goal, where nodes with the same state 
+*** 	    are added to the fringe multiple times before they
+*** 	    are expanded.
+*** 	student solution:		[]
+*** 	student expanded_states:	[]
+*** 
+*** 	correct solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	correct expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+*** 	correct rev_solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	correct rev_expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+*** Tests failed.
+
+### Question q3: 0/3 ###
+
+
+Finished at 22:24:15
+
+Provisional grades
+==================
+Question q1: 3/3
+Question q2: 0/3
+Question q3: 0/3
+------------------
+Total: 3/9
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+

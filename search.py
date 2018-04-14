@@ -19,12 +19,6 @@ Pacman agents (in searchAgents.py).
 
 import util
 
-from game import Directions
-n = Directions.NORTH
-s = Directions.SOUTH
-e = Directions.EAST
-w = Directions.WEST
-
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -73,7 +67,10 @@ def tinyMazeSearch(problem):
     Returns a sequence of moves that solves tinyMaze.  For any other maze, the
     sequence of moves will be incorrect, so only use this for tinyMaze.
     """
-    return [s, s, w, s, w, w, s, w]
+    from game import Directions
+    s = Directions.SOUTH
+    w = Directions.WEST
+    return  [s, s, w, s, w, w, s, w]
 
 def depthFirstSearch(problem):
     """
@@ -90,71 +87,63 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
 
-    def getUnvisitedState():
-        state = util.Stack.pop(stack)
-        print(state)
-        for vstate in visited:
-            if vstate == state:
-                getUnvisitedState()
-        return state
+    def getPredecessor(st):
+        if st[1] == 'North':
+            return (st[0][0], st[0][1] - 1)
+        if st[1] == 'South':
+            return (st[0][0], st[0][1] + 1)
+        if st[1] == 'East':
+            return (st[0][0] - 1, st[0][1])
+        if st[1] == 'West':
+            return (st[0][0] + 1, st[0][1])
+        else:
+            if st[1][3] == '-':
+                return st[1][2]
+            else:
+                return st[1][2:4]
 
-    if problem.isGoalState(problem.getStartState()):
-        return []
+    def pushStack(state):
+        util.Stack.push(stack, state[0])
+        dirlist = list(coord.get(getPredecessor(state)))
+        dirlist.append(state[1])
+        coord[state[0]] = dirlist
+
     stack = util.Stack()
-    visited = [problem.getStartState()]
-    goal = []
-    path = []
+    util.Stack.push(stack, problem.getStartState())
+    visited = []
+    coord = {}
+    coord[problem.getStartState()] = []
 
-    state = problem.getStartState()
-    while (goal == []):
-        successors = problem.getSuccessors(state)
-        for state in successors:
-            util.Stack.push(stack, state[0])
-        print(successors)
-        state = getUnvisitedState()
-        if problem.isGoalState(state[0]):
+    while (1):
+        state = util.Stack.pop(stack)
+        if problem.isGoalState(state):
             goal = state
             break
         visited.append(state)
-        print(visited)
+        successors = problem.getSuccessors(state)
+        for st in successors:
+            if st[0] not in visited:
+                pushStack(st)
 
-    stack = util.Stack()
-    successors = problem.getSuccessors(goal[0])
-
-    for state in successors:
-        util.Stack.push(stack, state[0])
-
-    while (goal != []):
-        successors = problem.getSuccessors(util.Stack.pop(stack))
-        for state in successors:
-            for vstate in visited:
-                if vstate == state[0]:
-                    path.append(state[1])
-                    util.Stack.push(stack, state[0])
-                    break
-            if state[0] == problem.getStartState:
-                goal = []
-                break
-            if valid == 0:
-                valid = 1
-                continue
-
-    print(path)
-
-    return path
+    return coord.get(goal)
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
 
-    def getPredecessor(actualState):
-        if actualState[1] == 'North':
-            return (actualState[0][0], actualState[0][1] - 1)
-        if actualState[1] == 'South':
-            return (actualState[0][0], actualState[0][1] + 1)
-        if actualState[1] == 'East':
-            return (actualState[0][0] - 1, actualState[0][1])
-        if actualState[1] == 'West':
-            return (actualState[0][0] + 1, actualState[0][1])
+    def getPredecessor(st):
+        if st[1] == 'North':
+            return (st[0][0], st[0][1] - 1)
+        if st[1] == 'South':
+            return (st[0][0], st[0][1] + 1)
+        if st[1] == 'East':
+            return (st[0][0] - 1, st[0][1])
+        if st[1] == 'West':
+            return (st[0][0] + 1, st[0][1])
+        else:
+            if st[1][3] == '-':
+                return st[1][2]
+            else:
+                return st[1][2:4]
 
     def pushQueue(state):
         util.Queue.push(queue, state[0])
@@ -162,35 +151,22 @@ def breadthFirstSearch(problem):
         dirlist.append(state[1])
         coord[state[0]] = dirlist
 
-    visited = [problem.getStartState()]
-    if problem.isGoalState(visited[0]):
-        return []
     queue = util.Queue()
+    util.Queue.push(queue, problem.getStartState())
+    visited = []
     coord = {}
-    goal = (-1, -1)
+    coord[problem.getStartState()] = []
 
-    successors = problem.getSuccessors(problem.getStartState())
-    pos = problem.getStartState()
-    coord[pos] = []
-    valid = 1
-
-    for i in range(len(successors)):
-        pushQueue(successors[i])
-    while (not(util.Queue.isEmpty(queue)) and goal == (-1, -1)):
-        successors = problem.getSuccessors(util.Queue.pop(queue))
-        for i in range(len(successors)):
-            for j in range(len(visited)):
-                if visited[j] == successors[i][0]:
-                    valid = 0
-                    break
-            if valid == 0:
-                valid = 1
-                continue
-            visited.append(successors[i][0])
-            pushQueue(successors[i])
-            if problem.isGoalState(successors[i][0]):
-                goal = successors[i][0]
-                break
+    while (1):
+        state = util.Queue.pop(queue)
+        if problem.isGoalState(state):
+            goal = state
+            break
+        visited.append(state)
+        successors = problem.getSuccessors(state)
+        for st in successors:
+            if st[0] not in visited:
+                pushQueue(st)
 
     return coord.get(goal)
 
