@@ -180,8 +180,56 @@ def iterativeDeepeningSearch(problem):
     Your search algorithm needs to return a list of actions that reaches the
     goal. Make sure to implement a graph search algorithm.
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    def getPredecessor(st):
+        if st[1] == 'North':
+            return (st[0][0], st[0][1] - 1)
+        if st[1] == 'South':
+            return (st[0][0], st[0][1] + 1)
+        if st[1] == 'East':
+            return (st[0][0] - 1, st[0][1])
+        if st[1] == 'West':
+            return (st[0][0] + 1, st[0][1])
+        else:
+            if st[1][3] == '-':
+                return st[1][2]
+            else:
+                return st[1][2:4]
+
+    def pushStack(state):
+        dirlist = list(coord.get(getPredecessor(state)))
+        dirlist.append(state[1])
+        coord[state[0]] = dirlist
+        if len(dirlist) <= depth:
+            util.Stack.push(stack, state[0])
+
+    depth = 0
+    goal = ()
+    coord = {}
+    coord[problem.getStartState()] = []
+    stack = util.Stack()
+
+    while (goal == ()):
+        util.Stack.push(stack, problem.getStartState())
+        visited = []
+        while (not util.Stack.isEmpty(stack)):
+            state = util.Stack.pop(stack)
+            if problem.isGoalState(state):
+                goal = state
+                break
+            visited.append(state)
+            successors = problem.getSuccessors(state)
+            for st in successors:
+                if st[0] not in visited:
+                    pushStack(st)
+                else:
+                    dirlist = list(coord.get(getPredecessor(st)))
+                    dirlist.append(st[1])
+                    if len(dirlist) < len(coord.get(st[0])):
+                        pushStack(st)
+        depth += 1
+
+    return coord.get(goal)
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
