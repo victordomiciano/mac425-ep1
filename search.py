@@ -199,7 +199,8 @@ def iterativeDeepeningSearch(problem):
     def pushStack(state):
         dirlist = list(coord.get(getPredecessor(state)))
         dirlist.append(state[1])
-        coord[state[0]] = dirlist
+        if coord.get(state[0]) == None:
+            coord[state[0]] = dirlist
         if len(dirlist) <= depth:
             util.Stack.push(stack, state[0])
 
@@ -222,11 +223,6 @@ def iterativeDeepeningSearch(problem):
             for st in successors:
                 if st[0] not in visited:
                     pushStack(st)
-                else:
-                    dirlist = list(coord.get(getPredecessor(st)))
-                    dirlist.append(st[1])
-                    if len(dirlist) < len(coord.get(st[0])):
-                        pushStack(st)
         depth += 1
 
     return coord.get(goal)
