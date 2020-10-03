@@ -258,15 +258,18 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         visited.append(state)
         successors = problem.getSuccessors(state)
         for st in successors:
+            combinedCost = cost.get(state) + st[2]
+            dirlist = list(coord.get(state))
+            dirlist.append(st[1])
             if st[0] not in visited:
-                combinedCost = int(cost.get(state))
-                combinedCost += st[2]
                 cost[st[0]] = combinedCost
-                util.PriorityQueue.update(pQueue, st[0], combinedCost + heuristic(st[0], problem))
-                dirlist = list(coord.get(state))
-                dirlist.append(st[1])
                 coord[st[0]] = dirlist
+                util.PriorityQueue.update(pQueue, st[0], combinedCost + heuristic(st[0], problem))
                 visited.append(st[0])
+            elif combinedCost < cost.get(st[0]):
+                cost[st[0]] = combinedCost
+                coord[st[0]] = dirlist
+                util.PriorityQueue.update(pQueue, st[0], combinedCost + heuristic(st[0], problem))
 
     return coord.get(goal)
 
