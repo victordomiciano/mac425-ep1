@@ -1,3 +1,6 @@
+# Nome: Victor Domiciano Mendonca
+# nUSP: 8641963
+
 # search.py
 # ---------
 # Licensing Information:  You are free to use or extend these projects for
@@ -241,10 +244,37 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    # "*** YOUR CODE HERE ***"
-    # util.raiseNotDefined()
-    return []
 
+    pQueue = util.PriorityQueue()
+    util.PriorityQueue.update(pQueue, problem.getStartState(), heuristic(problem.getStartState(), problem))
+    visited = []
+    coord = {}
+    coord[problem.getStartState()] = []
+    cost = {}
+    cost[problem.getStartState()] = 0
+
+    while (1):
+        state = util.PriorityQueue.pop(pQueue)
+        if problem.isGoalState(state):
+            goal = state
+            break
+        visited.append(state)
+        successors = problem.getSuccessors(state)
+        for st in successors:
+            combinedCost = cost.get(state) + st[2]
+            dirlist = list(coord.get(state))
+            dirlist.append(st[1])
+            if st[0] not in visited:
+                cost[st[0]] = combinedCost
+                coord[st[0]] = dirlist
+                util.PriorityQueue.update(pQueue, st[0], combinedCost + heuristic(st[0], problem))
+                visited.append(st[0])
+            elif combinedCost < cost.get(st[0]):
+                cost[st[0]] = combinedCost
+                coord[st[0]] = dirlist
+                util.PriorityQueue.update(pQueue, st[0], combinedCost + heuristic(st[0], problem))
+
+    return coord.get(goal)
 
 # Abbreviations
 bfs = breadthFirstSearch
